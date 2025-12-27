@@ -6,35 +6,57 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ scrolled }) => {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-[#0B5D3E] py-3 shadow-xl' : 'bg-transparent py-6'
+        scrolled ? 'glass-nav py-3 shadow-2xl' : 'bg-transparent py-6'
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#6EE7B7] rounded-lg flex items-center justify-center">
-            <span className="text-[#0B5D3E] font-bold text-xl">E</span>
-          </div>
-          <div className="flex flex-col">
-            <h1 className="text-white font-bold text-xl leading-none">إنجاز</h1>
-            <span className="text-[#6EE7B7] text-[10px] tracking-widest font-medium uppercase">Smart Solutions</span>
-          </div>
+        <div 
+          className="flex items-center gap-4 cursor-pointer"
+          onClick={() => scrollToSection('hero')}
+        >
+          <img 
+            src="https://www2.0zz0.com/2025/12/27/07/473567950.png" 
+            alt="إنجاز للحلول الذكية" 
+            className={`transition-all duration-500 ${scrolled ? 'h-10' : 'h-14'} object-contain`}
+          />
         </div>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#hero" className="text-white hover:text-[#6EE7B7] transition-colors text-sm font-medium">الرئيسية</a>
-          <a href="#solutions" className="text-white hover:text-[#6EE7B7] transition-colors text-sm font-medium">الحلول</a>
-          <a href="#why-enjaz" className="text-white hover:text-[#6EE7B7] transition-colors text-sm font-medium">لماذا إنجاز</a>
-          <a href="#footer" className="text-white hover:text-[#6EE7B7] transition-colors text-sm font-medium">تواصل معنا</a>
+        <nav className="hidden md:flex items-center gap-10">
+          {[
+            { name: 'الرئيسية', id: 'hero' },
+            { name: 'الحلول', id: 'solutions' },
+            { name: 'لماذا إنجاز', id: 'why-enjaz' },
+            { name: 'تواصل معنا', id: 'footer' }
+          ].map((item, idx) => (
+            <button 
+              key={idx}
+              onClick={() => scrollToSection(item.id)}
+              className="text-white hover:text-[#6EE7B7] transition-all text-sm font-semibold relative group"
+            >
+              {item.name}
+              <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-[#6EE7B7] transition-all group-hover:w-full"></span>
+            </button>
+          ))}
         </nav>
 
         {/* CTA */}
         <div>
-          <button className="bg-[#6EE7B7] text-[#0B5D3E] hover:bg-white px-6 py-2.5 rounded-sm font-bold text-sm transition-all transform hover:-translate-y-0.5">
+          <button 
+            onClick={() => window.open('https://wa.me/201225251888', '_blank')}
+            className="bg-[#12A16B] text-white hover:bg-[#6EE7B7] hover:text-[#0B5D3E] px-8 py-2.5 rounded-sm font-bold text-sm transition-all transform hover:-translate-y-1 shadow-lg border border-[#12A16B]"
+          >
             اطلب عرض سعر
           </button>
         </div>

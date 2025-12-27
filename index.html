@@ -9,24 +9,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         body {
             font-family: 'IBM Plex Sans Arabic', sans-serif;
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
         .green-gradient {
             background: linear-gradient(135deg, #12A16B 0%, #0B5D3E 100%);
         }
-        .text-glow {
-            text-shadow: 0 0 20px rgba(110, 231, 183, 0.3);
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            background-color: rgba(11, 93, 62, 0.85);
         }
-        .overlay-dark {
-            background: linear-gradient(rgba(11, 93, 62, 0.85), rgba(11, 93, 62, 0.95));
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
         }
-        /* منع ظهور شاشة بيضاء أثناء التحميل */
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
         #root:empty {
             min-height: 100vh;
             background-color: #0B5D3E;
+        }
+        /* تأثير عائم للعناصر الديكورية */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating-anim {
+            animation: floating 4s ease-in-out infinite;
         }
     </style>
 <script type="importmap">
@@ -43,7 +60,21 @@
 </head>
 <body class="bg-white text-[#1F2933]">
     <div id="root"></div>
-    <!-- ربط ملف المدخل الرئيسي لـ React -->
     <script type="module" src="/index.tsx"></script>
+    <script>
+        // سكربت تفعيل تأثيرات الظهور عند التمرير
+        window.addEventListener('scroll', reveal);
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+    </script>
 </body>
 </html>
